@@ -4,7 +4,7 @@ from .models import News
 
 
 def index(request):
-    title = 'Тестовый заголовок'
+    title = 'Новости моего сайта'
     news = News.objects.all()[:11]
     context = {
         'news': news,
