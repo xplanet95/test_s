@@ -6,9 +6,7 @@ from news import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('news/', include('news.urls')),
-    path('test/', views.test),
-    path('', views.index),
+    path('', include('news.urls')),
 ]
 
 if settings.DEBUG:
