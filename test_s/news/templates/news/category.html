@@ -1,72 +1,38 @@
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ category.title }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Добавить новость</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="container mt-3">
-    <div class="row">
-        <div class="col-md-2">
+{% extends 'base.html' %}
 
-            <div class="list-group">
-                {% for item in categories %}
-                <a href="{% url 'category' item.pk %}" class="list-group-item list-group-item-action">{{ item.title }}</a>
-                {% endfor %}
+{% block title %}{{ category.title }}{% endblock %}
+{% block title_h2 %}{{ category.title }}{% endblock %}
+{% block sidebar %}{{ block.super }}{% endblock %}
+
+{% block content %}
+{% for item in news %}
+<div class="card mb-3">
+    <div class="card-header">
+        <!--{{ item.category.title }}-->
+        {% if item.category %}
+        Категория: <a href="{% url 'category' item.category.pk %}">{{ item.category }}</a>
+        {% else %}
+        без категории
+        {% endif %}
+        <!--                    Категория: {{ item.category | default_if_none:'без категории' }}-->
+    </div>
+    <div>
+        <div class="card-body">
+            <div class="media">
+                {% if item.photo %}
+                <img src="{{ item.photo.url }}" alt="--" width="200px" height="150px" class="rounded float-left mr-3">
+                {% else %}
+
+                {% endif %}
+            </div>
+            <div class="media-body">
+                <h5 class="card-title">{{ item.title }}</h5>
+                <p class="card-text">{{ item.content | linebreaksbr | truncatewords:50 }}</p>
+                <a href="/" class="btn btn-primary">Читать далее</a>
+                <p class="card-text"><small class="text-muted">{{ item.created_at | date:"Y-m-d H:i" }}</small></p>
             </div>
         </div>
-
-        <div class="col-md-10">
-            {% for item in news %}
-            <div class="card mb-3">
-                <div class="card-header">
-                    <!--{{ item.category.title }}-->
-                    {% if item.category %}
-                    Категория: <a href="{% url 'category' item.category.pk %}">{{ item.category }}</a>
-                    {% else %}
-                    без категории
-                    {% endif %}
-                    <!--                    Категория: {{ item.category | default_if_none:'без категории' }}-->
-                </div>
-                <div>
-                    <div class="card-body">
-                        <div class="media">
-                            {% if item.photo %}
-                            <img src="{{ item.photo.url }}" alt="--" width="200px" height="150px" class="rounded float-left mr-3">
-                            {% else %}
-
-                            {% endif %}
-                        </div>
-                        <div class="media-body">
-                            <h5 class="card-title">{{ item.title }}</h5>
-                            <p class="card-text">{{ item.content | linebreaksbr | truncatewords:50 }}</p>
-                            <a href="/" class="btn btn-primary">Читать далее</a>
-                            <p class="card-text"><small class="text-muted">{{ item.created_at | date:"Y-m-d H:i" }}</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
     </div>
-
 </div>
-
-</body>
-</html>
+{% endfor %}
+{% endblock %}
