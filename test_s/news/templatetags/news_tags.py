@@ -10,10 +10,10 @@ def get_categories():
     return Category.objects.all()
 
 
+#  рендерит и показывает данные, помимо возвращения
 @register.inclusion_tag('news/list_categories.html')
 def show_categories():
     categories = Category.objects.all()
     context = {
         'categories': categories,
     }
-#  рендерит и показывает данные, помимо возвращения

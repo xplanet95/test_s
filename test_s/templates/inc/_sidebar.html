@@ -3,6 +3,13 @@
 <div class="list-group">
     {% get_all_cat as categories %}
     {% for item in categories %}
-    <a href="{% url 'category' item.pk %}" class="list-group-item list-group-item-action">{{ item.title }}</a>
+<!--    Постоение ссылки через метод модели-->
+    <a href="{{ item.get_absolute_url }}" class="list-group-item list-group-item-action">{{ item.title }}</a>
+<!--    Построение ссылки через тег url-->
+<!--    <a href="{% url 'category' item.pk %}" class="list-group-item list-group-item-action">{{ item.title }}</a>-->
     {% endfor %}
 </div>
+
+<!--Вариант сверху, получение списка через симпл тег-->
+<!--Вариант снизу, тоже самое но через инклюжн тег + файл лист_категориес-->
+{% comment %}{% show_categories %}{% endcomment %}

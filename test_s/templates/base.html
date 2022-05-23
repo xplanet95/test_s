@@ -23,7 +23,7 @@
             {% for item in news %}
             <div class="card mb-3">
                 <div class="card-header">
-                    <!--{{ item.category.title }}-->
+                    {% comment %}{{ item.category.title }}{% endcomment %}
                     {% if item.category %}
                     Категория: <a href="{% url 'category' item.category.pk %}">{{ item.category }}</a>
                     {% else %}
