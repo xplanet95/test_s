@@ -16,5 +16,6 @@ class CategoryAdmin(admin.ModelAdmin):
     #  ?
     empty_value_display = 'без категории'
 
+
 admin.site.register(News, NewsAdmin)
 admin.site.register(Category, CategoryAdmin)
