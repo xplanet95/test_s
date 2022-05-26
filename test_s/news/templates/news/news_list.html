@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ title }}{% endblock %}
-{% block title_h2 %}{{ title }}{% endblock %}
+{% block title %}Лента новостей{% endblock %}
+{% block title_h2 %}{{ block.super }}{% endblock %}
 {% block sidebar %}{{ block.super }}{% endblock %}
 
 {% block content %}
-{% for item in news %}
+{% for item in object_list %}
 <div class="card mb-3">
     <div class="card-header">
         <!--{{ item.category.title }}-->
         {% if item.category %}
-        Категория: <a href="{% url 'category' item.category.pk %}">{{ item.category }}</a>
+<!--        Можно ссылки сформировать через тег url или метод get_absolute_url-->
+        {% comment %}{% url 'category' item.category.pk %}{% endcomment %}
+        Категория: <a href="{{ item.category.get_absolute_url }}">{{ item.category }}</a>
         {% else %}
         без категории
         {% endif %}
@@ -20,9 +22,8 @@
         <div class="card-body">
             <div class="media">
                 {% if item.photo %}
-                <img src="{{ item.photo.url }}" alt="--" width="200px" height="150px" class="rounded float-left mr-3">
+                <img src="{{ item.photo.url }}" alt="--" width="200px" height="150px" class="rounded float-left">
                 {% else %}
-
                 {% endif %}
             </div>
             <div class="media-body">
