@@ -85,10 +85,22 @@ class CreateNews(CreateView):
 
 def add_news(request):
     if request.method == 'POST':
-        form = NewsForm(request.POST)
-        if form.is_valid():
-            #  для не связанной формы
-            # users_news = News.objects.create(**form.cleaned_data)
+        form = NewsForm(request.POST) #  Получем данные из формы из объекта request
+        if form.is_valid(): # проверка, прошла ли форма валидацию
+            # если форма прошла валидацию то данные попадают в словарь form.cleaned_data
+
+            # эти "чистые данные" надо сохранить, можно отдельно прописывать каждое поле:
+            # title = form.cleaned_data['name']
+            # ...
+
+            # или можно сделать автоматическую распаковку словаря
+            # News.objects.create(**form.cleaned_data)
+            # метод create возвращает объект созданной записи => его можно сохранить в переменную
+            # для метода create не надо form.save, делается автоматом
+            # users_news = News.objects.create(**form.cleaned_data), что бы редирект на саму запись
+            # либо надо очистить форму, либо редирект пользователя на другую страницу
+
+            # для форм связанных с моделью нужно только form.save() сделать
             users_news = form.save()
             return redirect(users_news)
     else:
