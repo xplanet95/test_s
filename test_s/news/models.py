@@ -9,6 +9,7 @@ class News(models.Model):
     photo = models.ImageField(upload_to='photo/%Y/%m/%d/', verbose_name='Фото', blank=True)
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
     category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Категория')
+    cnt_views = models.IntegerField(default=0)
 
     def get_absolute_url(self):
         return reverse_lazy('read_more_button', kwargs={'pk': self.pk})
