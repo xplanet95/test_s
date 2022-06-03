@@ -8,6 +8,8 @@ from .forms import NewsForm
 class HomeNews(ListView):
     model = News
     extra_context = {'title': 'Новости моего сайта'}
+    # можно задать queryset, вместо того, что бы дописавать .select_related('category') в return
+    # queryset = News.objects.select_related('category')
 
     # вместо экстра конетент, для динамических
     # def get_context_data(self, *, object_list=None, **kwargs):
@@ -16,7 +18,9 @@ class HomeNews(ListView):
     #     return context
 
     def get_queryset(self):
-        return News.objects.filter(is_published=True)
+        #  оптимизация, подгрузка джоином сарзу всех категорий, что бы не дублировать запросы
+        #  .select_related('category')
+        return News.objects.filter(is_published=True).select_related('category')
 
 
 class CategoryNews(ListView):
@@ -26,7 +30,8 @@ class CategoryNews(ListView):
     allow_empty = False
 
     def get_queryset(self):
-        return News.objects.filter(category_id=self.kwargs['category_id'], is_published=True)
+        return News.objects.filter(category_id=self.kwargs['category_id'],
+                                   is_published=True).select_related('category')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

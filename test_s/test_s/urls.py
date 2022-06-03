@@ -7,6 +7,7 @@ from news import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('news.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 if settings.DEBUG:
