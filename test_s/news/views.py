@@ -1,8 +1,12 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .models import News, Category
 from .forms import NewsForm
+from .utils import MyMixin
+# миксин, что бы закрыть доступ к ссылке для не авторизованных
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class HomeNews(ListView):
@@ -46,7 +50,7 @@ class ViewNews(DetailView):
     context_object_name = 'news_item'
 
 
-class CreateNews(CreateView):
+class CreateNews(LoginRequiredMixin, CreateView):
     form_class = NewsForm
     template_name = 'news/add_news.html'
     # success_url = reverse_lazy('home')
@@ -87,7 +91,7 @@ class CreateNews(CreateView):
 #     response = render(request, 'news/view_news.html', context)
 #     return response
 
-
+@login_required
 def add_news(request):
     if request.method == 'POST':
         form = NewsForm(request.POST) #  Получем данные из формы из объекта request
