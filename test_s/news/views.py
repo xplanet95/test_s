@@ -9,7 +9,15 @@ from .utils import MyMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
+def register(request):
+    return render(request, 'news/register.html')
+
+def login(request):
+    return render(request, 'news/login.html')
+
+
 class HomeNews(ListView):
+    paginate_by = 2
     model = News
     extra_context = {'title': 'Новости моего сайта'}
     # можно задать queryset, вместо того, что бы дописавать .select_related('category') в return
@@ -28,6 +36,7 @@ class HomeNews(ListView):
 
 
 class CategoryNews(ListView):
+    paginate_by = 2
     model = News
     template_name = 'news/category.html'
     context_object_name = 'news'

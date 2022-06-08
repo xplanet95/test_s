@@ -1,6 +1,6 @@
 from django import template
 from news.models import Category, News
-from django.db.models import Count
+from django.db.models import Count, F
 
 register = template.Library()
 
@@ -12,7 +12,10 @@ def get_categories():
     # Category.objects.all()
     # а можно вернуть только опубликованные + количество записей которых не равно 0.
     # что лучше, ибо если переходить на категории где нет записей будет 404 или типа того
-    return Category.objects.filter(news__is_published=True).annotate(cnt=Count('news')).filter(cnt__gt=0)
+    # мой вариант фильтра
+    # Category.objects.filter(news__is_published=True).annotate(cnt=Count('news')).filter(cnt__gt=0)
+    # ниже вариант с классом F
+    return Category.objects.annotate(cnt=Count('news', filter=F('news__is_published'))).filter(cnt__gt=0)
 
 
 #  рендерит и показывает данные, помимо возвращения
