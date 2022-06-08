@@ -2,6 +2,34 @@ from django import forms
 from .models import News, Category
 import re
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import User
+
+
+class UserRegisterForm(UserCreationForm):
+    # убрать автофокус
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['username'].widget.attrs.pop('autofocus')
+
+    username = forms.CharField(label='Логин:', help_text='Только давай нормальный логин',
+                               widget=forms.TextInput(attrs={
+                                    'class': 'form-control',
+                                    'style': 'width: 25%',
+    }))
+    email = forms.EmailField(label='e-mail:', widget=forms.EmailInput(attrs={'class': 'form-control',
+                                          'style': 'width: 25%'}))
+    password1 = forms.CharField(label='Пароль:', widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                          'style': 'width: 25%'}))
+    password2 = forms.CharField(label='Подтвердите пароль:', widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'style': 'width: 25%'
+    }))
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
 
 
 class NewsForm(forms.ModelForm):
@@ -22,6 +50,7 @@ class NewsForm(forms.ModelForm):
                                           'class': 'form-control',
                                           'style': 'width: 25%'
                                       }),
+            'photo': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
     def clean_title(self):

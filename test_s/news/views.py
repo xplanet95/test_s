@@ -3,14 +3,31 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .models import News, Category
-from .forms import NewsForm
+from .forms import NewsForm, UserRegisterForm
 from .utils import MyMixin
 # миксин, что бы закрыть доступ к ссылке для не авторизованных
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 
+# форма регистрации
 def register(request):
-    return render(request, 'news/register.html')
+    if request.method == 'POST':
+        # без отдельного приложения user
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # сообщения об успехе
+            messages.success(request, 'Вы успешно зарегестрировались')
+            return redirect('login')
+        else:
+            messages.error(request, 'Что-то пошло не так')
+    else:
+        form = UserRegisterForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'news/register.html', context)
 
 def login(request):
     return render(request, 'news/login.html')
