@@ -9,6 +9,11 @@ from .utils import MyMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.core.mail import send_mail
+
+
+def test_mail()
+
 
 # форма регистрации
 def register(request):

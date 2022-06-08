@@ -6,6 +6,19 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.forms import User
 
 
+# сохранять данные не будем
+class ContactForm(forms.Form):
+    subject = forms.CharField(label='Тема', widget=forms.TextInput(attrs={
+                                    'class': 'form-control',
+                                    'style': 'width: 25%',
+    }))
+    body = forms.CharField(label='Текст', widget=forms.Textarea(attrs={
+        'class': 'form-control',
+        'rows': 5,
+        'style': 'width: 25%',
+    }))
+
+
 # AuthenticationForm делает за нас аутентификацию, в нем нет Meta
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(label='Логин:', widget=forms.TextInput(attrs={
