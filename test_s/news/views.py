@@ -3,12 +3,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .models import News, Category
-from .forms import NewsForm, UserRegisterForm
+from .forms import NewsForm, UserRegisterForm, UserLoginForm
 from .utils import MyMixin
 # миксин, что бы закрыть доступ к ссылке для не авторизованных
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-
+from django.contrib.auth import login, logout
 
 # форма регистрации
 def register(request):
@@ -16,10 +16,12 @@ def register(request):
         # без отдельного приложения user
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             # сообщения об успехе
             messages.success(request, 'Вы успешно зарегестрировались')
-            return redirect('login')
+            # сразу авторизуем если все хоршо
+            login(request, user)
+            return redirect('home')
         else:
             messages.error(request, 'Что-то пошло не так')
     else:
@@ -29,8 +31,28 @@ def register(request):
     }
     return render(request, 'news/register.html', context)
 
-def login(request):
-    return render(request, 'news/login.html')
+
+def user_login(request):
+    if request.method == 'POST':
+        # надо присвоить данные переменной data
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            # метод получения пользователя
+            user = form.get_user()
+            # авторизация
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserLoginForm
+    context = {
+        'form': form,
+    }
+    return render(request, 'news/login.html', context)
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('home')
 
 
 class HomeNews(ListView):

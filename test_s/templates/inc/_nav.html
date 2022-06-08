@@ -12,8 +12,12 @@
                 {% endif %}
             </ul>
         </div>
-        <span class="navbar-text">
+        <span class="navbar-text px-2">
+            {% if user.is_authenticated %}
+                Добро пожаловать, {{ user.username }} | <a href="{% url 'logout' %}">Выйти</a>
+            {% else %}
                 <a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a>
+            {% endif %}
         </span>
     </div>
 </nav>
