@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Обратная связь{% endblock %}
+{% block title_h2 %}Отправить письмо:{% endblock %}
+
+{% block content %}
+
+            {% block sidebar %}
+            {% endblock %}
+
+<form action="{% url 'test' %}" method="post">
+    {% csrf_token %}
+<!--    Авто рендеринг-->
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+{% endblock %}

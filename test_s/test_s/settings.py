@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
     'news.apps.NewsConfig',
     "debug_toolbar",
 ]
@@ -132,6 +133,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# media
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -142,9 +144,13 @@ INTERNAL_IPS = [
     # ...
 ]
 
+#smtp mail.ru
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'xplanet1@mail.ru'
-EMAIL_HOST_PASSWORD = '123456789dkfl'
+EMAIL_HOST_USER = 'vladis.box95@mail.ru'
+EMAIL_HOST_PASSWORD = 'B6JTrxU8UMRghlmG6LHN'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
+
+# django-ckeditor
+CKEDITOR_UPLOAD_PATH = "uploads/"

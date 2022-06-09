@@ -10,12 +10,16 @@ from django.contrib.auth.forms import User
 class ContactForm(forms.Form):
     subject = forms.CharField(label='Тема', widget=forms.TextInput(attrs={
                                     'class': 'form-control',
-                                    'style': 'width: 25%',
+                                    # 'style': 'width: 25%',
+    }))
+    email = forms.EmailField(label='e-mail получателя', widget=forms.TextInput(attrs={
+                                    'class': 'form-control',
+                                    # 'style': 'width: 25%',
     }))
     body = forms.CharField(label='Текст', widget=forms.Textarea(attrs={
         'class': 'form-control',
         'rows': 5,
-        'style': 'width: 25%',
+        # 'style': 'width: 25%',
     }))
 
 
