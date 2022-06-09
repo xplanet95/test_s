@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ckeditor',
+    'ckeditor_uploader',
     'news.apps.NewsConfig',
     "debug_toolbar",
 ]
@@ -154,3 +155,8 @@ EMAIL_USE_SSL = True
 
 # django-ckeditor
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono-lisa',
+    }}

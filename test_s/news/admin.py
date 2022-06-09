@@ -1,9 +1,22 @@
 from django.contrib import admin
+from django import forms
 from .models import News, Category
 from django.utils.safestring import mark_safe
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
+
+class NewsAdminForm(forms.ModelForm):
+    # переопределяем поле content модели News, для добавления возможностей редактирования
+    content = forms.CharField(widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = News
+        fields = '__all__'
 
 
 class NewsAdmin(admin.ModelAdmin):
+    # подключение класса через атрибут form, это для ckeditor
+    form = NewsAdminForm
     list_display = ('id', 'title', 'category', 'created_at', 'updated_at', 'is_published',
                     'get_photo')
     list_display_links = ('id', 'title')
