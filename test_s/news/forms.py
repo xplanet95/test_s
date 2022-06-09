@@ -1,13 +1,14 @@
+import re
 from django import forms
 from .models import News, Category
-import re
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.forms import User
+from captcha.fields import CaptchaField
 
 
 # сохранять данные не будем
-class ContactForm(forms.Form):
+class ContactUsForm(forms.Form):
     subject = forms.CharField(label='Тема', widget=forms.TextInput(attrs={
                                     'class': 'form-control',
                                     # 'style': 'width: 25%',
@@ -21,6 +22,7 @@ class ContactForm(forms.Form):
         'rows': 5,
         # 'style': 'width: 25%',
     }))
+    captcha = CaptchaField()
 
 
 # AuthenticationForm делает за нас аутентификацию, в нем нет Meta

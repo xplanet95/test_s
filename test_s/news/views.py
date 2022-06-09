@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .models import News, Category
-from .forms import NewsForm, UserRegisterForm, UserLoginForm, ContactForm
+from .forms import NewsForm, UserRegisterForm, UserLoginForm, ContactUsForm
 from .utils import MyMixin
 # миксин, что бы закрыть доступ к ссылке для не авторизованных
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,9 +12,9 @@ from django.contrib.auth import login, logout
 from django.core.mail import send_mail
 
 
-def test_mail(request):
+def contact_us(request):
     if request.method == 'POST':
-        form = ContactForm(request.POST)
+        form = ContactUsForm(request.POST)
         if form.is_valid():
             # если нужна чисто обратная связь, то принимать email от пользователя не надо,
             # получателем должен быть владелец сайт
@@ -24,17 +24,17 @@ def test_mail(request):
             #  если False то будет отладка
             if mail:
                 messages.success(request, 'Письмо отправлено')
-                return redirect('test')
+                return redirect('contact_us')
             else:
                 messages.error(request, 'Ошибка отправки')
         else:
             messages.error(request, 'Ошибка валидации')
     else:
-        form = ContactForm()
+        form = ContactUsForm()
     context = {
         'form': form,
     }
-    return render(request, 'news/test.html', context)
+    return render(request, 'news/contact_us.html', context)
 
 
 # форма регистрации

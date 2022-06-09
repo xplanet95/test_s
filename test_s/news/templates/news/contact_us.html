@@ -8,7 +8,7 @@
             {% block sidebar %}
             {% endblock %}
 
-<form action="{% url 'test' %}" method="post">
+<form action="{% url 'contact_us' %}" method="post">
     {% csrf_token %}
 <!--    Авто рендеринг-->
     {{ form.as_p }}
