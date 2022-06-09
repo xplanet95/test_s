@@ -161,3 +161,11 @@ CKEDITOR_CONFIGS = {
     'default': {
         'skin': 'moono-lisa',
     }}
+
+#  caches
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'django_caches'),
+    }
+}

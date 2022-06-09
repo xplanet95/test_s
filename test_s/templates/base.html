@@ -19,6 +19,15 @@
             {% block sidebar %}
             {% include 'inc/_sidebar.html' %}
             {% endblock %}
+<!--            вариант с кэшированием сайдбара-->
+            {% comment %}
+            {% load cache %}
+            {% cache 500 sidebar %}
+            {% block sidebar %}
+            {% include 'inc/_sidebar.html' %}
+            {% endblock %}
+            {% endcache %}
+            {% endcomment %}
         </div>
         <div class="col-md-10">
 

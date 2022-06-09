@@ -1,6 +1,7 @@
 from django import template
 from news.models import Category, News
 from django.db.models import Count, F
+from django.core.cache import cache
 
 register = template.Library()
 
@@ -15,7 +16,19 @@ def get_categories():
     # мой вариант фильтра
     # Category.objects.filter(news__is_published=True).annotate(cnt=Count('news')).filter(cnt__gt=0)
     # ниже вариант с классом F
-    return Category.objects.annotate(cnt=Count('news', filter=F('news__is_published'))).filter(cnt__gt=0)
+    categories = Category.objects.annotate(
+        cnt=Count('news', filter=F('news__is_published'))).filter(cnt__gt=0)
+    # или еще можно проверкк на наличие в кэшэ, если нету, то только тогда делать запрос и кэшировать
+    # categories = cache.get('categories')
+    # if not categories:
+    #     categories = Category.objects.annotate(
+    #         cnt=Count('news', filter=F('news__is_published'))).filter(cnt__gt=0)
+    #     # кэширование, присвоенное имя в кавычка, данные для кэшировани второй параметр, время 3й
+    #     cache.set('categories', categories, 100)
+    # или можно get or set
+    #   cache.get_or_set('categories', Category.objects.annotate(
+    #             cnt=Count('news', filter=F('news__is_published'))).filter(cnt__gt=0), 100)
+    return categories
 
 
 #  рендерит и показывает данные, помимо возвращения
