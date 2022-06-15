@@ -266,3 +266,6 @@ venv/
 
 # Jupiter Notebook checkpoints
 .ipynb_checkpoints\
+
+# Django cache
+django_caches/
